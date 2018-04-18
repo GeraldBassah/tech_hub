@@ -14,10 +14,10 @@ var app = express();
 
 //creating mysql connection
 app.use(conn(mysql,{
-    host: '127.0.0.1',
-    user:'root',
-    password:'',
-    database: 'tech_hub'
+    host :'sql2.freemysqlhosting.net',
+    user: 'sql2232698',
+    password: 'vS2%jZ6*',
+    database : 'sql2232698'
 },'request'));
 
 // view engine setup
