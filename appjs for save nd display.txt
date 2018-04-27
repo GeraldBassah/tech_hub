@@ -1,0 +1,60 @@
+import React, {Component} from "react";
+import {Button,View,StyleSheet,Text,TextInput,AsyncStorage,Keyboard} from "react-native";
+
+export default  class App extends Component<{}>{
+ constructor(props){
+     super(props)
+     this.state={
+         fname:''
+     }
+ }
+  saveData=()=>{
+      const {fname}=this.state;
+      let myArray={
+          fname:fname
+      }
+      AsyncStorage.setItem('myArray',JSON.stringify(myArray));
+      Keyboard.dismiss();
+      alert(fname + ''+' saved data succesfully');
+  }
+   showData=async()=>{
+     let myArray=await AsyncStorage.getItem('myArray');
+     let d=JSON.parse(myArray);
+     alert(d.fname+ '');
+   }
+    render(){
+
+        return(
+            <View style={styles.container}>
+                <Text>
+                    Hello
+                </Text>
+                <TextInput placeholder= "First name"
+                style={styles.input}
+                           onChangeText={fname=> this.setState({fname})}
+                />
+                <Button title="Save Data"
+                        onPress={this.saveData}
+                        color="green"/>
+                <Button color="magenta"
+                        onPress={this.showData}
+                        title="show my data"
+                          />
+            </View>
+        );
+    }
+}
+const styles =StyleSheet.create({
+    container:{
+        flex:1,
+        backgroundColor:'#efefef',
+        padding:10
+    },
+    input:{
+        backgroundColor:'#fff',
+        padding:10,
+        margin:30,
+        borderWidth:1,
+        borderColor:'#ccc'
+    }
+})
