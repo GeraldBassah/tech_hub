@@ -1,0 +1,19 @@
+mport React,{Component} from 'react';
+import {Platform,Stylesheet,Text,View,TextInput,Button
+} from 'react-native';
+import {StackNavigator} from 'react-navigation';
+import Splash from './Splash'
+import shatta from './HomeComponent'
+import save_data from './save_data'
+const Navigation =StackNavigator({
+    Home:{
+        screen:Splash,
+    },
+    main:{
+        screen:HomeComponent,
+    },
+    save:{
+        screen:save_data
+    }
+})
+export default Navigation;
