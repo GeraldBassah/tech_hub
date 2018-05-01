@@ -1,0 +1,68 @@
+import React ,{Component} from "react";
+import {
+    View,
+    Text,
+    StyleSheet,
+    Image
+} from 'react-native';
+
+import {DrawerNavigator,DrawerItems} from 'react-navigation'
+
+import SettingsScreen from  './SettingsScreen.js'
+import HomeScreen from './HomeScreen.js'
+import {Container,Content,Header,Body,Icon} from 'native-base'
+
+ class App extends Component {
+    render(){
+        return(
+            <MyApp/>
+        );
+    }
+}
+const CustomDrawerContentComponent=(props)=>
+
+    (
+    <Container>
+        <Header style={{height:200,backgroundColor:'maroon'}}>
+            <Body>
+            <Image
+                style={styles.drawerImage}
+                source={require('./logo.png')}/>
+            </Body>
+        </Header>
+        <Content>
+            <DrawerItems{...props} />
+        </Content>
+
+    </Container>
+    )
+const MyApp=DrawerNavigator({
+    Home: {
+        screen: HomeScreen,
+    },
+    Settings: {
+        screen: SettingsScreen
+    }
+},{
+    initialRouteName:'Home',
+    contentComponent:CustomDrawerContentComponent,
+    drawerOpenRoute:'DrawerOpen',
+    drawerCloseRoute:'DrawerClose',
+    drawerToggleRoute:'DraweToggle'
+})
+export default App;
+
+
+
+styles=StyleSheet.create({
+    container:{
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    drawerImage:{
+        height:150,
+        width:150,
+        borderRadius:75
+    }
+})

@@ -1,0 +1,47 @@
+import React,{Component} from 'react';
+import{
+    AppRegistry,
+    StyleSheet,
+    Text,
+    View,
+    TouchableHighlight,
+    Share,
+Button
+} from 'react-native';
+
+ export default class App extends Component{
+     constructor(props){
+         super(props);
+         this._shareMessage=this._shareMessage.bind(this);
+         this._showResult=this._showResult.bind(this);
+this.state= {result:''};
+     }
+     _showResult(result){
+         this.setState({result})
+
+     }
+     _shareMessage()
+     {
+         Share.share({message:'This is a shared message'});
+     }
+    render(){
+        return(
+            <View style={styles.container}>
+                <TouchableHighlight >
+                    <Button title="SHARE"
+                            onPress={this._shareMessage}
+                            color="green"/>
+                </TouchableHighlight>
+
+            </View>
+        )
+    }
+}
+const styles =StyleSheet.create({
+    container:
+        {
+            flex:1,
+            justifyContent:'center',
+            alignItems:'center'
+        }
+})
