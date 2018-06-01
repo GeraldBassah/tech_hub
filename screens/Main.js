@@ -1,34 +1,219 @@
 import React, { Component } from 'react';
 import { Container, Text, Content,Icon,Title } from 'native-base';
-import { TabNavigator,NavigationActions,StackNavigator } from 'react-navigation';
-import { Platform,StyleSheet,Button,View,TouchableOpacity } from 'react-native';
+import {TabNavigator, NavigationActions, StackNavigator, DrawerNavigator} from 'react-navigation';
+import { Platform,StyleSheet,Button,View,TouchableOpacity,BackHandler,Alert } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
-import Trending from './Trending';
+
+import Opinion from './Opinion';
 import Halls from './Halls';
 import SRC from './SRC';
 import Colleges from './Colleges';
-import MyNews from './MyNews';
 import FirstScreen from './FirstScreen';
-import SecondScreen from './SecondScreen';
+import SecondScreen from './Halls/Colleges/SecondScreen';
+import Republic from './Halls/Republic';
 
-import Drawer from './Drawer';
+import  MenuButton  from './Drawer';
+import University from "./Halls/University";
+import Independence from "./Halls/Independence";
+import Unity from "./Halls/Unity";
+import Queens from "./Halls/Queens";
+import Africa from "./Halls/Africa";
 
 
-const MenuButton = (
-    <View>
-        <TouchableOpacity onPress={() => {/*this.props.navigate('DrawerOpen')*/} }>
-            <Icon name="ios-menu" style={{color: 'white', padding: 15, marginLeft:10, fontSize: 25}}/>
-        </TouchableOpacity>
-    </View>
+import COE from "./Halls/Colleges/COE";
+import CABE from "./Halls/Colleges/CABE";
+import COS from "./Halls/Colleges/COS";
+import COHSS from "./Halls/Colleges/COHSS";
+import CANR from "./Halls/Colleges/CANR";
+import COHS from "./Halls/Colleges/COHS";
+import MyNews from "./MyNews";
+import Preferences from "./Preferences";
+
+
+
+
+
+/*export const UnityStack = StackNavigator({
+    Unity:{
+        screen:Unity,
+    },
+    SecondScreen:{
+        screen:SecondScreen,
+    },
+},{
+   headerMode:'none',
+    }
 );
 
+
+export const AfricaStack = StackNavigator({
+    Africa:{
+        screen:Africa,
+    },
+    SecondScreen:{
+        screen:SecondScreen,
+    },
+},{
+        headerMode:'none',
+    }
+);
+
+export const QueensStack = StackNavigator({
+    Queens:{
+        screen:Queens,
+    },
+    SecondScreen:{
+        screen:SecondScreen,
+    },
+},{
+        headerMode:'none',
+    }
+);
+
+export const UniversityStack = StackNavigator({
+    University:{
+        screen:University,
+    },
+    SecondScreen:{
+        screen:SecondScreen,
+    },
+},{
+        headerMode:'none',
+    }
+);
+
+export const IndependenceStack = StackNavigator({
+    Independence:{
+        screen:Independence,
+    },
+    SecondScreen:{
+        screen:SecondScreen,
+    },
+},{
+    headerMode:'none',
+    }
+);
+
+export const RepublicStack = StackNavigator({
+    Republic:{
+        screen:Republic,
+    },
+    SecondScreen:{
+        screen:SecondScreen,
+    },
+},{
+        headerMode:'none',
+    }
+);
+
+
+
+
+
+
+export const COEStack = StackNavigator({
+        COE:{
+            screen:COE,
+        },
+        SecondScreen:{
+            screen:SecondScreen,
+        },
+    },{
+        headerMode:'none',
+    }
+);
+
+export const COSStack = StackNavigator({
+        COS:{
+            screen:COS,
+        },
+        SecondScreen:{
+            screen:SecondScreen,
+        },
+    },{
+        headerMode:'none',
+    }
+);
+
+export const CANRStack = StackNavigator({
+        CANR:{
+            screen:CANR,
+        },
+        SecondScreen:{
+            screen:SecondScreen,
+        },
+    },{
+        headerMode:'none',
+    }
+);
+
+export const CABEStack = StackNavigator({
+        CABE:{
+            screen:CABE,
+        },
+        SecondScreen:{
+            screen:SecondScreen,
+        },
+    },{
+        headerMode:'none',
+    }
+);
+
+export const COHSSStack = StackNavigator({
+        COHSS:{
+            screen:COHSS,
+        },
+        SecondScreen:{
+            screen:SecondScreen,
+        },
+    },{
+        headerMode:'none',
+    }
+);
+
+export const COHSStack = StackNavigator({
+        COHS:{
+            screen:COHS,
+        },
+        SecondScreen:{
+            screen:SecondScreen,
+        },
+    },{
+        headerMode:'none',
+    }
+);
+
+*/
+export const MyNewsStack = StackNavigator({
+        MyNews:{
+            screen:MyNews,
+            navigationOptions:{
+                headerTintColor:'white',
+                headerStyle:{
+                    backgroundColor:"maroon",
+                },
+                headerTitleStyle: {
+                    //alignSelf: 'center',
+                    textAlign:'center',
+                    justifyContent: 'center',
+                    color:'white',
+                },
+                title:'MyNews',
+            },
+        },
+        SecondScreen:{
+            screen:SecondScreen,
+        },
+    },
+);
 
 export class NewsFeedScreen extends React.Component{
     static navigationOptions={
         headerStyle:{
             backgroundColor:"maroon",
         },
+
         headerTitleStyle: {
             //alignSelf: 'center',
             textAlign:'center',
@@ -69,9 +254,9 @@ export class NewsPageScreen extends React.Component{
     }
 }
 
-export const TrendingStack = StackNavigator ({
+export const OpinionStack = StackNavigator ({
     Trending:{
-        screen:Trending,
+        screen:Opinion,
         navigationOptions:{
             headerStyle:{
                 backgroundColor:"maroon",
@@ -82,7 +267,7 @@ export const TrendingStack = StackNavigator ({
                 justifyContent: 'center',
                 color:'white',
             },
-            title:'Trending',
+            title:'Opinions',
         },
     },
     SecondScreen:{
@@ -94,6 +279,7 @@ export const HallsStack = StackNavigator ({
     Halls:{
         screen:Halls,
         navigationOptions:{
+            headerTintColor:'white',
             headerStyle:{
                 backgroundColor:"maroon",
             },
@@ -105,20 +291,12 @@ export const HallsStack = StackNavigator ({
             },
             title:'Halls',
         },
-    },
-    FirstScreen:{
-        screen:FirstScreen,
-    },
-    SecondScreen:{
-        screen:SecondScreen,
-    }
 
-});
-
-export const CollegesStack = StackNavigator ({
-    Colleges:{
-        screen:Colleges,
+    },
+    Africa:{
+       screen:Africa,
         navigationOptions:{
+            headerTintColor:'white',
             headerStyle:{
                 backgroundColor:"maroon",
             },
@@ -128,24 +306,13 @@ export const CollegesStack = StackNavigator ({
                 justifyContent: 'center',
                 color:'white',
             },
-            title:'Colleges',
+            title:'Africa',
         },
     },
-    FirstScreen:{
-        screen:FirstScreen,
-    },
-    SecondScreen:{
-        screen:SecondScreen,
-    }
-});
-
-
-
-
-export const MyNewsStack = StackNavigator ({
-    MyNews:{
-        screen:MyNews,
+    Republic:{
+        screen:Republic,
         navigationOptions:{
+            headerTintColor:'white',
             headerStyle:{
                 backgroundColor:"maroon",
             },
@@ -155,22 +322,233 @@ export const MyNewsStack = StackNavigator ({
                 justifyContent: 'center',
                 color:'white',
             },
-            title:'MyNews',
+            title:'Republic',
+        },
+
+    },
+    Independence:{
+        screen:Independence,
+        navigationOptions:{
+            headerTintColor:'white',
+            headerStyle:{
+                backgroundColor:"maroon",
+            },
+            headerTitleStyle: {
+                //alignSelf: 'center',
+                textAlign:'center',
+                justifyContent: 'center',
+                color:'white',
+            },
+            title:'Indece',
+        },
+    },
+    University:{
+        screen:University,
+        navigationOptions:{
+            headerTintColor:'white',
+            headerStyle:{
+                backgroundColor:"maroon",
+            },
+            headerTitleStyle: {
+                //alignSelf: 'center',
+                textAlign:'center',
+                justifyContent: 'center',
+                color:'white',
+            },
+            title:'University',
+        },
+    },
+    Unity:{
+        screen:Unity,
+        navigationOptions:{
+            headerTintColor:'white',
+            headerStyle:{
+                backgroundColor:"maroon",
+            },
+            headerTitleStyle: {
+                //alignSelf: 'center',
+                textAlign:'center',
+                justifyContent: 'center',
+                color:'white',
+            },
+            title:'Unity',
+        },
+    },
+    Queens:{
+        screen:Queens,
+        navigationOptions:{
+            headerTintColor:'white',
+            headerStyle:{
+                backgroundColor:"maroon",
+            },
+            headerTitleStyle: {
+                //alignSelf: 'center',
+                textAlign:'center',
+                justifyContent: 'center',
+                color:'white',
+            },
+            title:'Queens',
         },
     },
     SecondScreen:{
         screen:SecondScreen,
-    }
-});
+    },
+
+},
+);
+
+export const CollegeStack = StackNavigator ({
+        Colleges:{
+            screen:Colleges,
+            navigationOptions:{
+                headerTintColor:'white',
+                headerStyle:{
+                    backgroundColor:"maroon",
+                },
+                headerTitleStyle: {
+                    //alignSelf: 'center',
+                    textAlign:'center',
+                    justifyContent: 'center',
+                    color:'white',
+                },
+                title:'Colleges',
+            },
+        },
+        COHS:{
+            screen:COHS,
+            navigationOptions:{
+                headerTintColor:'white',
+                headerStyle:{
+                    backgroundColor:"maroon",
+                },
+                headerTitleStyle: {
+                    //alignSelf: 'center',
+                    textAlign:'center',
+                    justifyContent: 'center',
+                    color:'white',
+                },
+                title:'COHS',
+            },
+        },
+        COHSS:{
+            screen:COHSS,
+            navigationOptions:{
+                headerTintColor:'white',
+                headerStyle:{
+                    backgroundColor:"maroon",
+                },
+                headerTitleStyle: {
+                    //alignSelf: 'center',
+                    textAlign:'center',
+                    justifyContent: 'center',
+                    color:'white',
+                },
+                title:'COHSS',
+            },
+
+        },
+        CANR:{
+            screen:CANR,
+            navigationOptions:{
+                headerTintColor:'white',
+                headerStyle:{
+                    backgroundColor:"maroon",
+                },
+                headerTitleStyle: {
+                    //alignSelf: 'center',
+                    textAlign:'center',
+                    justifyContent: 'center',
+                    color:'white',
+                },
+                title:'CANR',
+            },
+        },
+        CABE:{
+            screen:CABE,
+            navigationOptions:{
+                headerTintColor:'white',
+                headerStyle:{
+                    backgroundColor:"maroon",
+                },
+                headerTitleStyle: {
+                    //alignSelf: 'center',
+                    textAlign:'center',
+                    justifyContent: 'center',
+                    color:'white',
+                },
+                title:'CABE',
+            },
+        },
+        COS:{
+            screen:COS,
+            navigationOptions:{
+                headerTintColor:'white',
+                headerStyle:{
+                    backgroundColor:"maroon",
+                },
+                headerTitleStyle: {
+                    //alignSelf: 'center',
+                    textAlign:'center',
+                    justifyContent: 'center',
+                    color:'white',
+                },
+                title:'COS',
+            },
+        },
+    COE:{
+        screen:COE,
+        navigationOptions:{
+            headerTintColor:'white',
+            headerStyle:{
+                backgroundColor:"maroon",
+            },
+            headerTitleStyle: {
+                //alignSelf: 'center',
+                textAlign:'center',
+                justifyContent: 'center',
+                color:'white',
+            },
+            title:'COE',
+        },
+    },
+    SecondScreen:{
+         screen:SecondScreen,
+    },
+
+    },
+);
+
+
+
+
+backPressed = () => {
+
+    Alert.alert(
+        'Exit App',
+        'Do you want to exit?',
+        [
+            {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+            {text: 'Yes', onPress: () => BackHandler.exitApp()},
+        ],
+        { cancelable: false });
+
+    return true;
+
+};
 
 
 export const SRCStack = StackNavigator ({
     SRC:{
         screen:SRC,
         navigationOptions:{
+            headerRight: <FontAwesome name='sign-out' size={24}
+                           onPress={this.backPressed}           color='white'
+            />,
             headerStyle:{
                 backgroundColor:"maroon",
+
             },
+            headerTintColor:'white',
             headerTitleStyle: {
                 //alignSelf: 'center',
                 textAlign:'center',
@@ -186,12 +564,9 @@ export const SRCStack = StackNavigator ({
 });
 
 
-
-
-
 export default class Home extends Component{
     static navigationOptions={
-        drawerLabel:'home',
+        drawerLabel:'Home',
         drawerIcon: ({ tintColor }) =>
             <FontAwesome name='home' size={24}
                          color={tintColor}
@@ -206,21 +581,19 @@ export default class Home extends Component{
 
 
   export const MainNavigator  = TabNavigator({
-        Trending:{screen:TrendingStack,
 
-        },
         SRC:{
             screen:SRCStack,
         },
         Colleges:{
-            screen:CollegesStack,
+            screen:CollegeStack,
         },
         Halls:{
             screen:HallsStack,
         },
-        MyNews:{
-            screen:MyNewsStack,
-        },
+          Opinion:{
+            screen:OpinionStack,
+          },
     },
     {
         animationEnabled: true,
@@ -241,7 +614,7 @@ export default class Home extends Component{
             upperCaseLabel:false,
             showIcon:false,
             showLabel:true,
-            allowFontScaling:true,
+            allowFontScaling:false,
             style:{
                 backgroundColor:'maroon',
             },

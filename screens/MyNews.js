@@ -1,91 +1,129 @@
 import React, { Component } from 'react';
-import { Container, Text, Content,Icon } from 'native-base';
+import { Container, Header, Content, Card, CardItem, Thumbnail,ListItem, Button, Icon, Left, Body, Right } from 'native-base';
 import { List } from 'react-native-elements';
-import {Platform,ScrollView,Image,TouchableOpacity,View} from 'react-native';
+import {Platform,ScrollView,Image,TouchableOpacity,TouchableHighlight,View,Text,AsyncStorage,ActivityIndicator} from "react-native";
 
-import FirstScreen from './FirstScreen';
-import SecondScreen from './SecondScreen';
+
+import axios from 'axios';
+import SecondScreen from './Halls/Colleges/SecondScreen';
+import Preferences from './Preferences';
 
 export default class MyNews extends Component {
+
     static NavigationOptions ={
         tabBarIcon:({ tintColor }) => {
             return <Icon name='ios-home-outline' style={{color:tintColor}} />
         }
     };
+    state = {
+        persons: [],
+        showMe:true,
+    };
+
+     componentDidMount() {
+       axios.get(`https://techhubapi.herokuapp.com/pref`)
+            .then(res => {
+                const persons = res.data;
+                this.setState({ persons,showMe: false });
+                //let news =  JSON.stringify(this.state.persons.cotitle);
+            });
+    }
+
+
     render(){
+        let p1 = this.props.navigation.state.params.hall;
+        let p2 = this.props.navigation.state.params.college;
         return (
-            <ScrollView>
-                <TouchableOpacity onPress={()=> {this.props.navigation.navigate('SecondScreen')}}>
-                    <View style={{ flex:1,flexDirection:'row',backgroundColor:'white'}}>
-                        <Image
-                            source={require('./Logos/KATANGALOGO.jpg')}
-                            style={{width:100,height:100,margin:5}}
-                        />
-                        <View style={{flex:1,flexDirection:'column'}}>
-                            <Text style={{padding:10}}>
-                                Katanga unveils new logo lorep ipsu,morem Ipsum is simply dummy text of the printing and
-                            </Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
+            <Container>
+                <ScrollView>
+                    <View >
+                        {
+                            this.state.showMe ?
+                                <ActivityIndicator size='large'/>
+                                : <View>
+                                    {this.state.persons.map((v, index) => {
+                                        if (v.name == p1 || v.name == p2) {
+                                            let x = 0;
+                                            let y = '';
+                                            if (v.day > 1) {
+                                                x = v.day;
+                                                y = 'days ago';
+                                            } else if (v.day == 1) {
+                                                x = v.day;
+                                                y = 'day ago';
+                                            }
+                                            else if ((v.hour) > 1 && (v.day) < 1) {
+                                                x = v.hour;
+                                                y = 'hours ago';
+                                            } else if ((v.hour) == 1 && (v.day) < 1) {
+                                                x = v.hour;
+                                                y = 'hour ago';
+                                            }
+                                            else if ((v.minute > 1) && ((v.hour < 1)
+                                                    && (v.day < 1))) {
+                                                x = v.minute;
+                                                y = 'minutes ago';
+                                            } else if ((v.minute == 1) && ((v.hour < 1)
+                                                    && (v.day < 1))) {
+                                                x = v.minute;
+                                                y = 'minute ago';
+                                            } else if ((v.minute == 0) && ((v.hour < 1)
+                                                    && (v.day < 1))) {
+                                                x = '';
+                                                y = 'Just now';
+                                            }
 
-                <TouchableOpacity>
-                    <View style={{ flex:1,flexDirection:'row',backgroundColor:'white'}}>
-                        <Image
-                            source={require('./DummyPics/index.png')}
-                            style={{width:100,height:100,margin:5}}
-                        />
-                        <View style={{flex:1,flexDirection:'column'}}>
-                            <Text style={{padding:10}}>
-                                Skytech opens new branch in tech ipsum lorep siuojx xis jxjdj jhcdjc cdh  hdcjhcdhj jhhj
-                            </Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
+                                            return <View key={index} style={{flex: 1, backgroundColor: 'white'}}>
+                                                <TouchableHighlight onPress={() => {
+                                                    this.props.navigation.navigate('SecondScreen', {
+                                                        news: v.news,
+                                                        image: v.url,
+                                                        title: v.title,
+                                                    })
+                                                }}>
+                                                    <Card>
+                                                        <CardItem>
+                                                            <Left>
+                                                                <Body>
+                                                                <Text style={{
+                                                                    padding: 10,
+                                                                    fontWeight: 'bold',
+                                                                    fontSize: 20,
+                                                                    fontFamily: 'Roboto',
+                                                                }}>{v.title}</Text>
+                                                                <Text note numberOfLines={2} style={{
+                                                                    padding: 10,
+                                                                    fontWeight: '100',
+                                                                    fontFamily: 'Roboto',
+                                                                }}>{v.news}</Text>
+                                                                </Body>
+                                                            </Left>
+                                                        </CardItem>
+                                                        <CardItem cardBody>
+                                                            <Image source={{uri: v.url}}
+                                                                   style={{height: 200, width: null, flex: 1}}/>
+                                                        </CardItem>
+                                                        <CardItem>
+                                                            <Right>
+                                                                <Text style={{
+                                                                    fontWeight: '100',
+                                                                    fontFamily: 'sans-serif-medium',
+                                                                }}>{x} {y}</Text>
+                                                            </Right>
+                                                        </CardItem>
+                                                    </Card>
+                                                </TouchableHighlight>
 
-                <TouchableOpacity>
-                    <View style={{ flex:1,flexDirection:'row',backgroundColor:'white'}}>
-                        <Image
-                            source={require('./DummyPics/Plane.jpg')}
-                            style={{width:100,height:100,margin:5}}
-                        />
-                        <View style={{flex:1,flexDirection:'column'}}>
-                            <Text style={{padding:10}}>
-                                Coe secures new plane idod odod odod piduk dkdkd kdkdk dkdkdkdkdkk dkdkdkdkdkdkdkdkdk
-                            </Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
+                                            </View>
+                                        }
 
-
-                <TouchableOpacity>
-                    <View style={{ flex:1,flexDirection:'row',backgroundColor:'white'}}>
-                        <Image
-                            source={require('./DummyPics/Shatta.png')}
-                            style={{width:100,height:100,margin:5}}
-                        />
-                        <View style={{flex:1,flexDirection:'column'}}>
-                            <Text style={{padding:10}}>
-                                Shatta performs freedom at knust lorep ppsum in ere id k inrr
-                            </Text>
-                        </View>
+                                    })
+                                    }
+                                </View>
+                        }
                     </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity>
-                    <View style={{ flex:1,flexDirection:'row',backgroundColor:'white'}}>
-                        <Image
-                            source={require('./DummyPics/Library.jpg')}
-                            style={{width:100,height:100,margin:5}}
-                        />
-                        <View style={{flex:1,flexDirection:'column'}}>
-                            <Text style={{padding:10}}>
-                                New library complex opened for student populace kdjd id di k dm
-                            </Text>
-                        </View>
-                    </View>
-                </TouchableOpacity>
-            </ScrollView>
+                </ScrollView>
+            </Container>
         );
     }
 }

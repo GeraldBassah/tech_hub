@@ -1,41 +1,43 @@
 import React, { Component } from 'react';
 import { Container, Header, Content, Card, CardItem, Thumbnail,  Button, Icon, Left, Body, Right } from 'native-base';
 import { List } from 'react-native-elements';
-import {Platform,ScrollView,Image,TouchableOpacity,View,Text,ActivityIndicator,TouchableHighlight,BackHandler} from "react-native";
+import {Platform,ScrollView,Image,TouchableOpacity,View,Text,ActivityIndicator,TouchableHighlight} from "react-native";
 
 
 import axios from 'axios';
-import SecondScreen from './Halls/Colleges/SecondScreen';
+import SecondScreen from './Colleges/SecondScreen';
 import {StackNavigator} from "react-navigation";
 
 
 
-export default class SRC extends Component {
-    static NavigationOptions = {
-        tabBarIcon: ({tintColor}) => {
-            return <Icon name='ios-home-outline' style={{color: tintColor}}/>
+
+
+export default class University extends Component {
+    static NavigationOptions ={
+        tabBarIcon:({ tintColor }) => {
+            return <Icon name='ios-home-outline' style={{color:tintColor}} />
         }
     };
-
     state = {
         persons: [],
-        showMe: true,
+        showMe:true,
     };
 
     componentDidMount() {
-        axios.get(`https://techhubapi.herokuapp.com/src`)
+        axios.get(`https://techhubapi.herokuapp.com/katanga`)
+        /*axios.get(`http://192.168.0.102:3000/engineering`)*/
             .then(res => {
                 const persons = res.data;
-                this.setState({persons,showMe: false});
+                this.setState({ persons,showMe: false });
+                //let news =  JSON.stringify(this.state.persons.cotitle);
             });
     }
 
-    render() {
-
+    render(){
         return (
             <Container>
                 <ScrollView>
-                    <View>
+                    <View >
                         {
                             this.state.showMe ?
                                 <ActivityIndicator size='large'/>
@@ -74,11 +76,12 @@ export default class SRC extends Component {
                                         return <View key={index} style={{flex: 1, backgroundColor: 'white'}}>
                                             <TouchableHighlight onPress={() => {
                                                 this.props.navigation.navigate('SecondScreen', {
-                                                    news: v.src_news,
-                                                    image: v.src_url,
-                                                    title: v.src_news_title,
+                                                    news: v.hall_news,
+                                                    image: v.hall_url,
+                                                    title: v.hall_news_title
                                                 })
                                             }}>
+
                                                 <Card>
                                                     <CardItem>
                                                         <Left>
@@ -88,17 +91,17 @@ export default class SRC extends Component {
                                                                 fontWeight: 'bold',
                                                                 fontSize: 20,
                                                                 fontFamily: 'Roboto',
-                                                            }}>{v.src_news_title}</Text>
+                                                            }}>{v.hall_news_title}</Text>
                                                             <Text note numberOfLines={2} style={{
                                                                 padding: 10,
                                                                 fontWeight: '100',
                                                                 fontFamily: 'Roboto',
-                                                            }}>{v.src_news}</Text>
+                                                            }}>{v.hall_news}</Text>
                                                             </Body>
                                                         </Left>
                                                     </CardItem>
                                                     <CardItem cardBody>
-                                                        <Image source={{uri: v.src_url}}
+                                                        <Image source={{uri: v.hall_url}}
                                                                style={{height: 200, width: null, flex: 1}}/>
                                                     </CardItem>
                                                     <CardItem>
@@ -121,6 +124,7 @@ export default class SRC extends Component {
                     </View>
                 </ScrollView>
             </Container>
+
 
         );
     }

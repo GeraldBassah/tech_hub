@@ -1,7 +1,7 @@
 import React from 'react';
-import {StyleSheet,Image, View, Text,ScrollView,TouchableOpacity,Switch} from 'react-native';
+import {StyleSheet,Image, View, Text,ScrollView,TouchableOpacity,TouchableHighlightSwitch,AsyncStorage,TouchableHighlight,TextInput,Button,Platform,FlatList,Alert} from 'react-native';
 import { TabNavigator,TabBarBottom ,StackNavigator,DrawerNavigator,NavigationActions} from 'react-navigation';
-import { Container,Header,Content,Icon,Body,Button,Left,Right} from 'native-base';
+import { Container, Header, Title, Content,  Icon, Right, Body, Left, Picker, Form } from "native-base";
 import { DrawerItems } from 'react-navigation';
 //import FontAwesome from 'react-native-vector-icons/Ionicons';
 import { FontAwesome } from '@expo/vector-icons';
@@ -11,6 +11,12 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { List,ListItem,SearchBar } from 'react-native-elements';
 import TermsOfUseScreen from './TermsOfUse'
 import SupportScreen from './SupportUs'
+import MyNews from './MyNews'
+
+import { PropTypes} from 'prop-types';
+import Preferences from "./Preferences";
+import SecondScreen from "./Halls/Colleges/SecondScreen";
+//import { FontAwesome } from '@expo/vector-icons';
 
 class MyhomeScreen extends React.Component{
     static navigationOptions={
@@ -50,33 +56,21 @@ export class HelpScreen extends React.Component{
 
     };
     render(){
+        let msg= 'contact us by email:thexile97@gmail.com\n' +
+                 'or phone:+233209028266';
         return(
             <ScrollView>
-                <List>
-                        <ListItem
-                            title={'Terms of Use'}
-                            onPress={()=>{this.props.navigation.navigate('TermsOfUseScreen')}}
-                        />
-
-
-                        <ListItem
-                            title={'Support'}
-                            onPress={()=>{this.props.navigation.navigate('SupportScreen')}}
-                        />
-
-
-                        <ListItem
-                            title={'Version'}
-                            subtitle={'2.2.3'}
-                        />
-
-                    <TouchableOpacity>
-                        <ListItem
-                            title={'Check for Updates'}
-                        />
-                    </TouchableOpacity>
-
-                </List>
+                <Text style={{
+                    padding: 20,
+                    fontWeight: 'bold',
+                    fontSize: 20,
+                    fontFamily: 'Roboto',
+                }}>
+                    CONTACT US
+                </Text>
+                <Text style={{fontSize: 17, margin:5, marginBottom:45, padding: 15, fontFamily:'sans-serif-light', textAlign:'left'}} selectable={true}>
+                    {msg}
+                </Text>
             </ScrollView>
         );
     }
@@ -96,7 +90,7 @@ class SearchScreen extends React.Component{
             color:'white',
         },
         title:'Search',
-        drawerLabel:'Searchh',
+        drawerLabel:'Search',
         drawerIcon: ({ tintColor }) =>
             <Ionicons name='ios-search' size={24}
                          color={tintColor}
@@ -120,8 +114,8 @@ export const SearchStack = StackNavigator({
     },
 });
 
+class PreferencesScreen extends  React.Component{
 
-class MyNotificationsScreen extends  React.Component{
     static navigationOptions={
         headerStyle:{
             backgroundColor:"maroon",
@@ -135,33 +129,30 @@ class MyNotificationsScreen extends  React.Component{
             justifyContent: 'center',
             color:'white',
         },
-        title:'Notifications',
-        drawerLabel:'Notifications',
+        title:'Set Preferences',
+        drawerLabel:'Preferences',
         drawerIcon: ({ tintColor }) =>
             <Ionicons name='ios-notifications' size={24}
                          color={tintColor}
             />
 
     };
-    render(){
-        return(
-            <ScrollView>
-                <Switch
-                    value={true}
-                    activeText={'On'}
-                    inActiveText={'Off'}
-                />
-            </ScrollView>
 
+    render() {
+        const {title, holdTitle} = this.props;
+        return (
+                    <ScrollView
+                        style={styles.scrollView}
+                        contentContainerStyle={{paddingRight:30}}
+                        horizontal={true}
+                        showsHorizontalScrollndicator={false}
+                    >
+
+                    </ScrollView>
         );
     }
 }
 //code the stack
-export const MyNotificationsStack = StackNavigator({
-    Notifications:{
-        screen:MyNotificationsScreen,
-    },
-});
 
 
 
@@ -179,25 +170,36 @@ class AboutUsScreen extends React.Component{
             justifyContent: 'center',
             color:'white',
         },
-        title:'About Us',
-        drawerLabel:'About us',
+        title:'About',
+        drawerLabel:'About',
         drawerIcon: ({ tintColor }) =>
             <Ionicons name='md-happy' size={24}
                          color={tintColor}
             />
     };
+
     render(){
+
         return(
             <View /*style={{ flex:1,justifyContent:'center',alignItems:'center'}}*/>
-                <Text>
-                    This App was developed by Skytech inc.
-                    Skytech inc is made of six KNUST students:
-                    1. kwadwo Baafi (C.E.O)
-                    2.Joshua Asare ( Project Manager )
-                    3.Akrasi Mensah( Secretary  )
-                    4.Gerald Bassah ( HRM )
-                    5.Deladem Komla ( Database Manager )
-                </Text>
+                <List>
+                    <ListItem
+                        title={'Developer'}
+                        subtitle={'SKYTECH INC KNUST.'}
+                    />
+
+
+
+
+
+                    <ListItem
+                        title={'Version'}
+                        subtitle={'0.1.0'}
+                    />
+
+
+
+                </List>
             </View>
         );
     }
@@ -208,20 +210,39 @@ export const AboutUsStack = StackNavigator({
         screen:AboutUsScreen,
     },
 });
-
-const styles = StyleSheet.create({
-    icon:{
-        width:5,
-        height:5,
+export const PreferencesStack = StackNavigator({
+    Preferences:{
+        screen:Preferences,
+    },
+    MyNews:{
+        screen:MyNews,
+        navigationOptions:{
+            headerStyle:{
+                backgroundColor:"maroon",
+            },
+            headerTintColor:'white',
+            headerTitleStyle: {
+                //alignSelf: 'center',
+                textAlign:'center',
+                justifyContent: 'center',
+                color:'white',
+            },
+            title:'Favourites',
+        },
+    },
+    SecondScreen:{
+        screen:SecondScreen,
     },
 });
+
+
 const CustomDrawerContentComponent = (props) => (
     <Container>
         <Header style={{height:200, backgroundColor:'maroon',}}>
             <Body>
             <Image
                 style={{width:100,height:100,borderRadius:50,}}
-                source={require('./techhublogo2.jpg')}
+                source={require('./Logos/NewLogo1.jpg')}
             />
             </Body>
         </Header>
@@ -245,28 +266,35 @@ export const  HelpStack = StackNavigator({
     },
     SupportScreen:{
         screen:SupportScreen,
-    }
+    },
 });
+
+const MenuButton = (
+     <View>
+         <TouchableOpacity onPress={() => {this.props.navigate('DrawerOpen')} }>
+             <Icon name="ios-menu" style={{color: 'white', padding: 15, marginLeft:10, fontSize: 25}}/>
+         </TouchableOpacity>
+     </View>
+ );
+
+
+
+
 
 const Drawer = DrawerNavigator({
         Home: {
             screen:Home,
-
         },
-        Notifications: {
-            screen:MyNotificationsStack,
-
+        Preferences:{
+            screen:PreferencesStack,
         },
-        Search: {
-            screen:SearchStack,
+        Help: {
+            screen:HelpStack,
         },
         AboutUs: {
             screen:AboutUsStack,
         },
 
-        Help: {
-            screen:HelpStack,
-        },
     },
     {
         drawerPosition:'left',
@@ -285,6 +313,62 @@ const Drawer = DrawerNavigator({
             }
         }
     });
+
+
+
+const styles = StyleSheet.create({
+    icon:{
+        width:5,
+        height:5,
+    },
+    wrapper:{
+        display:'flex',
+    },
+    titleWrapper:{
+        display:'flex',
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'space-between',
+        paddingLeft:21,
+        paddingRight:21,
+    },
+    title:{
+        color:'black',
+    },
+    seeAllBtn:{
+        marginTop:2,
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'space-between',
+    },
+    seeAllBtnText:{
+        color:'grey',
+        marginRight:5,
+    },
+    scrollView:{
+        marginTop:20,
+        marginLeft:15,
+        marginBottom:28,
+    },
+    card:{
+        marginRight:6,
+        marginLeft:6,
+        width:157,
+        flexDirection:'column',
+        minHeight:100,
+    },
+    cardContent:{
+
+    },
+    image:{
+       width:undefined,
+       flex:1,
+        height:100,
+        borderRadius:8,
+        marginBottom:7
+    },
+
+});
 export default Drawer;
 
 

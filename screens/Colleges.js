@@ -6,7 +6,12 @@ import {StackNavigator} from "react-navigation";
 import {NewsFeedScreen} from "./Main";
 import FirstScreen from './FirstScreen';
 
-
+import COE from "./Halls/Colleges/COE";
+import CABE from "./Halls/Colleges/CABE";
+import COS from "./Halls/Colleges/COS";
+import COHSS from "./Halls/Colleges/COHSS";
+import CANR from "./Halls/Colleges/CANR";
+import COHS from "./Halls/Colleges/COHS";
 
 
 
@@ -25,49 +30,42 @@ export default class Colleges extends Component {
                             roundAvatar
                             avatar={require('./Logos/COHSSLOGO.jpg')}
                             title={'COLLEGE OF HUMANITIES'}
-                            onPress={()=> {this.props.navigation.navigate('FirstScreen')}}
+                            onPress={()=> {this.props.navigation.navigate('COHSS')}}
                         />
 
                     <ListItem
                         roundAvatar
                         avatar={require('./Logos/COELOGO.png')}
                         title={'COLLEGE OF ENGINEERING'}
-                        onPress={()=> {this.props.navigation.navigate('FirstScreen')}}
+                        onPress={()=> {this.props.navigation.navigate('COE')}}
 
                     />
                     <ListItem
                         roundAvatar
                         avatar={require('./Logos/COHS.jpg')}
                         title={'COLLEGE OF HEALTH SCIENCES'}
-                        onPress={()=> {this.props.navigation.navigate('FirstScreen')}}
+                        onPress={()=> {this.props.navigation.navigate('COHS')}}
 
                     />
                     <ListItem
                         roundAvatar
-                        avatar={require('./Logos/COHSSLOGO.jpg')}
+                        avatar={require('./Logos/COSLOGO.jpg')}
                         title={'COLLEGE OF SCIENCE'}
-                        onPress={()=> {this.props.navigation.navigate('FirstScreen')}}
+                        onPress={()=> {this.props.navigation.navigate('COS')}}
 
                     />
                     <ListItem
                         roundAvatar
                         avatar={require('./Logos/CANRLOGO.jpg')}
                         title={'COLLEGE OF AGRIC AND NATURAL RESOURCES'}
-                        onPress={()=> {this.props.navigation.navigate('FirstScreen')}}
+                        onPress={()=> {this.props.navigation.navigate('CANR')}}
 
                     />
                     <ListItem
                         roundAvatar
                         avatar={require('./Logos/CABELOGO.jpg')}
                         title={'COLLEGE OF ART AND BUILT ENVIRONMENT'}
-                        onPress={()=> {this.props.navigation.navigate('FirstScreen')}}
-
-                    />
-                    <ListItem
-                        roundAvatar
-                        avatar={require('./Logos/GRASSAGLOGO.jpg')}
-                        title={'GRADUATE STUDENT ASSOCIATION'}
-                        onPress={()=> {this.props.navigation.navigate('FirstScreen')}}
+                        onPress={()=> {this.props.navigation.navigate('CABE')}}
 
                     />
 
